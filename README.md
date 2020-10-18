@@ -18,7 +18,7 @@ Cuando un nuevo archivo llega a este bucket, otra función Lambda se ejecuta par
 
 Este proceso es el más demorado y costoso de toda la implementación, para un audio de 10 minutos de duración el trabajo de transcribción se puede llegar a demorar hasta 3 minutos.
 
-el reusltado del trabajo de trascribción se guarda en un S3 en formato .json, Cuando un nuevo archivo llega a este bucket, otra función Lambda se ejecuta para obtener el texto de la llamada y enviarlo a el modulo de análisis de texto.
+el resultado del trabajo de trascribción se guarda en un S3 en formato .json, Cuando un nuevo archivo llega a este bucket, otra función Lambda se ejecuta para obtener el texto de la llamada y enviarlo a el modulo de análisis de texto.
 
 Se usó Amazon SageMaker para entrenar multiples modelos para clasificar: Producto, Intención, Tipo de movimiento, Contexto 1, Contexto 2, Detalle y verbalización del cliente.
 
