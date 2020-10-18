@@ -26,6 +26,13 @@ Los modelos se alojaron en una instancia t2.micro de EC2 donde se raliza la infe
 
 Al final se guardan los resultados en el bucket que contiene la aplicación web y son mostrados en un [Dashboard](http://jarvis.com.s3-website-us-east-1.amazonaws.com/dashboard.html).
 
+## Funcionalidades
+
+Además de analizar los motivos de las llamadas de los clientes, esta aplicación permite almacenar los registros de todos los analisis realizados
+y descargar el historial en formato csv.
+
+![dashboard](https://i.imgur.com/wIqm5WP.png)
+
 ## Proyección de costos
 
 Se usó una cuenta con acceso a la capa gratuita, para el desarrollo estos fueron las proyecciones de costos en AWS

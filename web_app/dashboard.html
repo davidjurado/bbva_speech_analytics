@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <!-- Add this to <head> -->
+  <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+  <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
+  <script src="https://unpkg.com/vue@latest/dist/vue.min.js"></script>
+  <!-- Add this after vue.js -->
+  <script src="https://unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
+  <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
+  <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script type="text/javascript" src="data2.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <div>
+      <b-navbar toggleable="sm" type="dark" variant="dark">
+
+        <b-navbar-brand>BBVA</b-navbar-brand>
+
+        <b-collapse id="nav-text-collapse" is-nav>
+          <b-navbar-nav>
+            <b-nav-item href="index.html">Cargar audio</b-nav-item>
+            <b-nav-item href="dashboard.html">Dashboard</b-nav-item>
+          </b-navbar-nav>
+        </b-collapse>
+      </b-navbar>
+    </div>
+    <h1>Avengers Dashboard</h1>
+
+    <template>
+      <b-container fluid>
+        <!-- User Interface controls -->
+        <b-row>
+          <b-col md="11" class="my-1">
+            <b-form-group class="mb-0">
+              <b-input-group>
+                <b-form-input v-model="filter" placeholder="Búsqueda" />
+                <b-input-group-append>
+                  <b-btn :disabled="!filter" @click="filter = ''">Borrar</b-btn>
+                </b-input-group-append>
+              </b-input-group>
+            </b-form-group>
+          </b-col>
+          <b-col md="1" class="my-1">
+            <b-button size="sm" class="mb-0" @click="refreshPage()">
+              <b-icon icon="arrow-clockwise" aria-hidden="true"></b-icon>
+            </b-button>
+          </b-col>
+        </b-row>
+
+        <!-- Main table element -->
+        <b-table show-empty stacked="md" :items="items" :fields="fields" :current-page="currentPage" :per-page="perPage"
+          :filter="filter" @filtered="onFiltered">
+        </b-table>
+        <div class="overflow-auto">
+          <b-pagination :total-rows="totalRows" :per-page="perPage" v-model="currentPage" class="my-0" />
+        </div>
+      </b-container>
+      <b-button variant="success" @click="downloadCsv()">Descargar en formato csv</b-button>
+    </template>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+    integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+    crossorigin="anonymous"></script>
+  <script>
+
+    new Vue({
+      el: "#app",
+      data: {
+        items: myData,
+        fields: [
+          { key: 'Nombre Archivo', label: 'Nombre Archivo', sortable: true },
+          { key: 'Producto', label: 'Producto', sortable: true },
+          { key: 'Intención', label: 'Intención', sortable: true },
+          { key: 'Tipo de movimiento', label: 'Tipo de movimiento', sortable: true },
+          { key: 'Contexto 1', label: 'Contexto 1' },
+          { key: 'Contexto 2', label: 'Contexto 2' },
+          { key: 'Detalle 1', label: 'Detalle 1' },
+          { key: 'Verbalizacion del cliente', label: 'Verbalización del cliente' }
+        ],
+        currentPage: 1,
+        perPage: 5,
+        totalRows: myData.length,
+        filter: null
+      },
+      methods: {
+        onFiltered(filteredItems) {
+          // Trigger pagination to update the number of buttons/pages due to filtering
+          this.totalRows = filteredItems.length
+          this.currentPage = 1
+        },
+        downloadCsv() {
+          let csvContent = "data:text/csv;charset=UTF-8,";
+          myData.forEach(function (rowArray) {
+            var array = Object.keys(rowArray).map((key) => [key + ": " + JSON.stringify(rowArray[key])]);
+            let row = array.join(",");
+            csvContent += row + "\r\n";
+          });
+          var encodedUri = encodeURI(csvContent);
+          var link = document.createElement("a");
+          link.setAttribute("href", encodedUri);
+          link.setAttribute("download", "data.csv");
+          document.body.appendChild(link); // Required for FF
+
+          link.click();
+        },
+        refreshPage() {
+          console.log("refresh")
+          window.location.reload();
+          console.log("refreshcado")
+        }
+      }
+    })
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/bootstrap-table@1.18.0/dist/bootstrap-table.min.js"></script>
+  <style type="text/css">
+    table,
+    th,
+    td {
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 5px;
+      text-align: left;
+    }
+
+    body {
+      background: #f4f4f4;
+      padding: 20px;
+      font-family: sans-serif;
+    }
+
+    #app {
+      background: #fff;
+      border-radius: 4px;
+      padding: 20px;
+      transition: all 0.2s;
+      text-align: center;
+    }
+
+    #logo {
+      width: 100px;
+    }
+
+    h2 {
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    h1,
+    h2 {
+      font-weight: normal;
+      margin-bottom: 15px;
+    }
+
+    a {
+      color: #42b983;
+    }
+  </style>
+</body>
+
+</html>
