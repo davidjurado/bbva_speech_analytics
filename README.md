@@ -36,7 +36,7 @@ Se usó una cuenta con acceso a la capa gratuita, para el desarrollo estos fuero
 
 * David Fernando Jurado. [contacto](https://www.linkedin.com/in/david-fernando-jurado-blanco-69799b136/).
 
-* Mateo Marin Echeverri. [contacto](www.linkedin.com/in/mateomarinecheverri)
+* Mateo Marin Echeverri. [contacto](https://www.linkedin.com/in/mateomarinecheverri/)
 
 * Julieth Andrea López Castiblanco. [contacto](https://github.com/JuliethLopez)
 
